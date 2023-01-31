@@ -1,6 +1,6 @@
 package ru.job4j.accidents.controller;
-import lombok.AllArgsConstructor;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
-
 import java.util.Optional;
 
 @Controller
@@ -25,6 +24,7 @@ public class AccidentControl {
      */
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
+        model.addAttribute("types", accidents.findTypeAll());
         model.addAttribute("user", "Petr Arsentev");
         return "createAccident";
     }
@@ -38,6 +38,15 @@ public class AccidentControl {
                     "Не получены данные происшествия, не сохранено в хранилище.",
                     "/index");
         }
+        if (accident.getType() == null
+                || accidents.findTypeById(accident.getType().getId()).isEmpty()) {
+            return goToError(
+                    model,
+                    "Не распознан тип происшествия. Не сохранено в хранилище.",
+                    "/index"
+            );
+        }
+        accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
         if (!accidents.add(accident)) {
             return goToError(
                     model,
@@ -71,6 +80,7 @@ public class AccidentControl {
                     "/index");
         }
         model.addAttribute("accident", accidentRes.get());
+        model.addAttribute("types", accidents.findTypeAll());
         return "editAccident";
     }
 
@@ -83,6 +93,15 @@ public class AccidentControl {
                     "Не получено содержание происшествия. Не сохранено в хранилище",
                     "/index");
         }
+        if (accident.getType() == null
+                || accidents.findTypeById(accident.getType().getId()).isEmpty()) {
+            return goToError(
+                    model,
+                    "Не распознан тип происшествия. Не сохранено в хранилище.",
+                    "/index"
+            );
+        }
+        accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
         if (!accidents.update(accident)) {
             model.addAttribute("accident", accident);
             return goToError(

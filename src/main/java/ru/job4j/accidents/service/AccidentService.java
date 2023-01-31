@@ -2,6 +2,7 @@ package ru.job4j.accidents.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.AccidentRepository;
 import java.util.List;
 import java.util.Optional;
@@ -19,22 +20,26 @@ public class AccidentService {
                 0,
                 "Павлик Морозов",
                 "Езда с мигалками по пешеходной зоне",
-                "Москва, Красная площадь"));
+                "Москва, Красная площадь",
+                accidentRepository.findTypeById(1).orElse(null)));
         add(new Accident(
                 0,
                 "Павлик Морозов",
                 "Езда в нетрезвом виде",
-                "Ленинград, Петровка 38"));
+                "Ленинград, Петровка 38",
+                accidentRepository.findTypeById(2).orElse(null)));
         add(new Accident(
                 0,
                 "Дядя Стёпа",
                 "не пропустил пешехода",
-                "Москва, ВДНХ"));
+                "Москва, ВДНХ",
+                accidentRepository.findTypeById(3).orElse(null)));
         add(new Accident(
                 0,
                 "Дядя Стёпа",
                 "проезд по выделенной полосе для городского транспорта",
-                "Москва, ВДНХ"));
+                "Москва, ВДНХ",
+                accidentRepository.findTypeById(1).orElse(null)));
     }
 
     /**
@@ -87,5 +92,22 @@ public class AccidentService {
      */
     public boolean update(Accident accident) {
         return accidentRepository.update(accident);
+    }
+
+    /**
+     * Найти тип происшествия по id. Емли нет, то пустой.
+     * @param id - идентификатор типа происшествия.
+     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.AccidentType>}
+     */
+    public Optional<AccidentType> findTypeById(int id) {
+        return accidentRepository.findTypeById(id);
+    }
+
+    /**
+     * Возращает список типов происшествий.
+     * @return список {@link java.util.List<ru.job4j.accidents.model.AccidentType>}
+     */
+    public List<AccidentType> findTypeAll() {
+        return accidentRepository.findTypeAll();
     }
 }

@@ -1,6 +1,7 @@
 package ru.job4j.accidents.repository;
 
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.AccidentType;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,5 +50,18 @@ public interface AccidentRepository {
      * true  - обновлено в хранилище.
      * false - ошибка обновления. Может отсутствовать id.
      */
-    public boolean update(Accident accident);
+    boolean update(Accident accident);
+
+    /**
+     * Найти тип происшествия по id. Емли нет, то пустой.
+     * @param id - идентификатор типа происшествия.
+     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.AccidentType>}
+     */
+    Optional<AccidentType> findTypeById(int id);
+
+    /**
+     * Возращает список типов происшествий.
+     * @return список {@link java.util.List<ru.job4j.accidents.model.AccidentType>}
+     */
+    List<AccidentType> findTypeAll();
 }

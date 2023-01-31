@@ -27,6 +27,7 @@ public class IndexController {
     public String index(Model model) {
         model.addAttribute("user", "Petr Arsentev");
         model.addAttribute("accidents", accidentService.findAll());
+        model.addAttribute("types", accidentService.findTypeAll());
         return "index";
     }
 }

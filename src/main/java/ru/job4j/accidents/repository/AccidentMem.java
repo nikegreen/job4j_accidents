@@ -30,7 +30,8 @@ public class AccidentMem implements AccidentRepository {
     @Override
     public boolean add(Accident accident) {
         accident.setId(size.incrementAndGet());
-        return accidents.putIfAbsent(accident.getId(), accident) == accident;
+        Accident res = accidents.putIfAbsent(accident.getId(), accident);
+        return  res == null;
     }
 
     /**
@@ -63,5 +64,18 @@ public class AccidentMem implements AccidentRepository {
     @Override
     public Optional<Accident> findById(int id) {
         return Optional.ofNullable(accidents.getOrDefault(id, null));
+    }
+
+    /**
+     * Сохраняет значение из {@param accident} в хранилище.
+     * @param accident - происшествие с новыми полями (кроме идентификатора происшествия)
+     * @return результат обновления  тип boolean.
+     * true  - обновлено в хранилище.
+     * false - ошибка обновления. Может отсутствовать id.
+     */
+    @Override
+    public boolean update(Accident accident) {
+        Accident res = accidents.replace(accident.getId(), accident);
+        return  accident.equals(res);
     }
 }

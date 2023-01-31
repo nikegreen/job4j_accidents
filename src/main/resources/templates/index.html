@@ -9,12 +9,12 @@
 </head>
 <body class="bg-secondary">
     <header>
-            <nav class="navbar fixed-top bg-dark container-fluid ps-3 pe-3" data-bs-theme="dark">
+            <nav class="navbar navbar-expand-lg bg-dark container-fluid ps-3 pe-3" data-bs-theme="dark">
                 <!-- Navbar content -->
                     <span class="navbar-brand">Автомобильные инциденты</span>
                     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        <li class="nav-item"><a href="/index" class="nav-link px-2 text-secondary">главная</a></li>
-                        <li class="nav-item"><a href="/page2" class="nav-link px-2 text-white">меню 2</a></li>
+                        <li class="nav-item active"><a th:href="@{/index}" class="nav-link px-2 text-secondary">главная</a></li>
+                        <li class="nav-item"><a th:href="@{/createAccident}" class="nav-link px-2 text-white">Добавить происшествие</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle px-2 text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">меню 3</a>
                             <ul class="dropdown-menu">
@@ -31,8 +31,7 @@
                     <span class="navbar-text text-end" th:text="${user}"></span>
             </nav>
     </header>
-    <main class="container" >
-        <br><br><br>
+    <main class="container mt-2">
 <!--        <div class="">-->
             <table class="table table-dark table-striped table-hover table-bordered">
                 <thead>
@@ -46,11 +45,26 @@
                 </thead>
                 <tbody>
                     <tr th:each="accident:${accidents}">
-                        <th scope="row" th:text="${accident.id}"></th>
-                        <td colspan="2" th:text="${accident.name}"></td>
-                        <td th:text="${accident.text}">под кирпич</td>
-                        <td th:text="${accident.address}"></td>
-                        <td>принято</td>
+                        <th scope="row" th:if="${user!=accident.name}" th:text="${accident.id}"></th>
+                        <th scope="row" th:if="${user==accident.name}">
+                            <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.id}"></a>
+                        </th>
+                        <td colspan="2" th:if="${user!=accident.name}" th:text="${accident.name}"></td>
+                        <td colspan="2" th:if="${user==accident.name}">
+                            <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.name}"></a>
+                        </td>
+                        <td th:if="${user!=accident.name}" th:text="${accident.text}"></td>
+                        <td th:if="${user==accident.name}">
+                            <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.text}"></a>
+                        </td>
+                        <td th:if="${user!=accident.name}" th:text="${accident.address}"></td>
+                        <td th:if="${user==accident.name}">
+                            <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.address}"></a>
+                        </td>
+                        <td th:if="${user!=accident.name}">принято</td>
+                        <td th:if="${user==accident.name}">
+                            <a th:href="@{'/editAccident?id='+${accident.id}}">принято</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -77,4 +77,15 @@ public class AccidentService {
     public Optional<Accident> findById(int id) {
         return accidentRepository.findById(id);
     }
+
+    /**
+     * Сохраняет значение из {@param accident} в хранилище.
+     * @param accident - происшествие с новыми полями (кроме идентификатора происшествия)
+     * @return результат обновления  тип boolean.
+     * true  - обновлено в хранилище.
+     * false - ошибка обновления. Может отсутствовать id.
+     */
+    public boolean update(Accident accident) {
+        return accidentRepository.update(accident);
+    }
 }

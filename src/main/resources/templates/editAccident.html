@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="author" content="Зеленский Николай aka Nike Z.">
+    <title>Автомобильные инциденты - новый</title>
+    <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body class="bg-secondary">
+<header>
+    <nav class="navbar navbar-expand-lg bg-dark container-fluid ps-3 pe-3" data-bs-theme="dark">
+        <!-- Navbar content -->
+        <span class="navbar-brand">Автомобильные инциденты</span>
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li class="nav-item"><a th:href="@{/index}" class="nav-link px-2 text-white">главная</a></li>
+            <li class="nav-item active"><a th:href="@{/createAccident}" class="nav-link px-2 text-secondary">Добавить происшествие</a></li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle px-2 text-white" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">меню 3</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">подменю 1</a></li>
+                    <li><a class="dropdown-item" href="#">подменю 2</a></li>
+                    <li><a class="dropdown-item" href="#">подменю 3</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#">подменю 4</a></li>
+                </ul>
+            </li>
+            <li class="nav-item"><a href="/page4" class="nav-link px-2 text-white">меню 4</a></li>
+            <li class="nav-item"><a href="/page5" class="nav-link px-2 text-white">меню 5</a></li>
+        </ul>
+        <span class="navbar-text text-end" th:text="${user}"></span>
+    </nav>
+</header>
+<main>
+<!--    <div class="container">-->
+<!--        <div class="row pt-3 pb-3">-->
+            <div class="card pt-1 pb-1" style="width: auto; margin: 1rem">
+                <div class="card-header">
+                    Исправить инцидент
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/updateAccident}" method="POST" enctype="multipart/form-data" th:object="${accident}">
+                        <input type="hidden" name="id"  th:field="*{id}"/>
+                        <div class="form-group">
+                            <label for="name">Имя</label>
+                            <input type="text" class="form-control" name="name" id="name" th:field="*{name}">
+                        </div>
+                        <div class="form-group">
+                            <label for="text">Описание происшествия</label>
+                            <input type="text" class="form-control" name="text" id="text" th:field="*{text}">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Адрес</label>
+                            <input type="text" class="form-control" name="address" id="address" th:field="*{address}">
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+                    </form>
+                </div>
+            </div>
+<!--        </div>-->
+<!--    </div>-->
+</main>
+<footer class="container-fluid d-flex justify-content-between align-items-center bg-dark pt-2 pb-2"  data-bs-theme="dark">
+    <div class="justify-content-start">
+        <a class="text-muted" href="https://ekaterinburg.hh.ru/resume/a9f5ffddff01375f8a0039ed1f544d49736b74" target="_blank">&copy 2023 by Nike Z</a>
+    </div>
+    <div class="justify-content-end">
+        <a class="text-muted" href="#top">Наверх</a>
+    </div>
+</footer>
+<script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>

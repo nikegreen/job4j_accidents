@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
 
@@ -54,19 +55,19 @@ public class AccidentControl {
      * Через атрибут "user" передаём имя пользователя тип {@link  java.lang.String}.
      */
     @GetMapping("/editAccident")
-    public String viewEditAccident(Model model, @ModelAttribute Accident accident) {
+    public String viewEditAccident(Model model, @RequestParam("id") int id) {
         model.addAttribute("user", "Petr Arsentev");
-        if (accident == null) {
+        if (id < 1) {
             return goToError(
                     model,
-                    "Не получен ID происшествия",
+                    "Не получен ID происшествия или меньше 1",
                     "/index");
         }
-        Optional<Accident> accidentRes = accidents.findById(accident.getId());
+        Optional<Accident> accidentRes = accidents.findById(id);
         if (accidentRes.isEmpty()) {
             return goToError(
                     model,
-                    "Происшествие с id=" + accident.getId() + " не найдено",
+                    "Происшествие с id=" + id + " не найдено",
                     "/index");
         }
         model.addAttribute("accident", accidentRes.get());

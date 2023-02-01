@@ -6,8 +6,11 @@ import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.repository.AccidentRepository;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
+ * @author nikez
+ * @version $Id: $Id
  * Класс сервис для происшествий (Accident)
  */
 @Service
@@ -21,25 +24,29 @@ public class AccidentService {
                 "Павлик Морозов",
                 "Езда с мигалками по пешеходной зоне",
                 "Москва, Красная площадь",
-                accidentRepository.findTypeById(1).orElse(null)));
+                accidentRepository.findTypeById(1).orElse(null),
+                Set.of()));
         add(new Accident(
                 0,
                 "Павлик Морозов",
                 "Езда в нетрезвом виде",
                 "Ленинград, Петровка 38",
-                accidentRepository.findTypeById(2).orElse(null)));
+                accidentRepository.findTypeById(2).orElse(null),
+                Set.of()));
         add(new Accident(
                 0,
                 "Дядя Стёпа",
                 "не пропустил пешехода",
                 "Москва, ВДНХ",
-                accidentRepository.findTypeById(3).orElse(null)));
+                accidentRepository.findTypeById(3).orElse(null),
+                Set.of()));
         add(new Accident(
                 0,
                 "Дядя Стёпа",
                 "проезд по выделенной полосе для городского транспорта",
                 "Москва, ВДНХ",
-                accidentRepository.findTypeById(1).orElse(null)));
+                accidentRepository.findTypeById(1).orElse(null),
+                Set.of()));
     }
 
     /**

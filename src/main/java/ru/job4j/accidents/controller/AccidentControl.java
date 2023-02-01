@@ -8,16 +8,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
+import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.service.AccidentService;
-import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
+import java.util.stream.Collectors;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Контрол для отображения страниц и обработки результатов страниц:
+ *  - createAccident.html
+ *  - editAccident.html
+ */
 @Controller
 @AllArgsConstructor
 public class AccidentControl {
     private final AccidentService accidents;
 
+    private  final List<Rule> rules = List.of(
+            new Rule(1, "Статья. 1"),
+            new Rule(2, "Статья. 2"),
+            new Rule(3, "Статья. 3")
+    );
+
     /**
      * <p>Страница сервиса для создания нового происшествия.</p>
+     * @param model тип {@link org.springframework.ui.Model}
      * всегда вернёт строку:
      * @return типа {@link java.lang.String}  = "createAccident".
      * Через атрибут "user" передаём имя пользователя тип {@link  java.lang.String}.
@@ -26,11 +43,26 @@ public class AccidentControl {
     public String viewCreateAccident(Model model) {
         model.addAttribute("types", accidents.findTypeAll());
         model.addAttribute("user", "Petr Arsentev");
+        model.addAttribute("rules", rules);
         return "createAccident";
     }
 
+    /**
+     * <p>Обработчик нажатия кнопки 'сохранить' в странице создания происшествия</p>
+     * Получаем из формы объект {@param accident}
+     * с заполненными полями типа {@link ru.job4j.accidents.model.Accident}
+     * @param model тип {@link org.springframework.ui.Model}
+     * @param accident тип {@link ru.job4j.accidents.model.Accident}
+     * @param req - получаем значения выбранных элементов списка статей нарушения.
+     * @return тип {@link java.lang.String} строка для перехода на другую страницу.
+     * index - если без ошибок.
+     * error - в если есть ошибки.
+     */
     @PostMapping("/saveAccident")
-    public String save(Model model, @ModelAttribute Accident accident) {
+    public String save(Model model,
+                       @ModelAttribute Accident accident,
+                       HttpServletRequest req) {
+        String[] ids = req.getParameterValues("rIds");
         model.addAttribute("user", "Petr Arsentev");
         if (accident == null) {
             return goToError(
@@ -47,6 +79,12 @@ public class AccidentControl {
             );
         }
         accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
+        accident.setRules(
+             rules.stream()
+                  .filter(rule -> Arrays.stream(ids).map(s -> Integer.valueOf(s).intValue())
+                        .toList().contains(rule.getId())
+                  ).collect(Collectors.toSet())
+        );
         if (!accidents.add(accident)) {
             return goToError(
                     model,
@@ -59,6 +97,8 @@ public class AccidentControl {
 
     /**
      * <p>Страница сервиса для редактирования происшествия.</p>
+     * @param model тип {@link org.springframework.ui.Model}
+     * @param id тип {@link }
      * всегда вернёт строку:
      * @return типа {@link java.lang.String}  = "editAccident".
      * Через атрибут "user" передаём имя пользователя тип {@link  java.lang.String}.
@@ -81,11 +121,27 @@ public class AccidentControl {
         }
         model.addAttribute("accident", accidentRes.get());
         model.addAttribute("types", accidents.findTypeAll());
+        model.addAttribute("rules", rules);
         return "editAccident";
     }
 
+    /**
+     * <p>Обработчик нажатия кнопки 'сохранить' в странице редактирования происшествия</p>
+     * Получаем из формы объект {@param accident}
+     * с заполненными полями типа {@link ru.job4j.accidents.model.Accident}
+     * @param model тип {@link org.springframework.ui.Model}
+     * @param accident тип {@link ru.job4j.accidents.model.Accident}
+     * @param req - получаем значения выбранных элементов списка статей нарушения.
+     * @return тип {@link java.lang.String} строка для перехода на другую страницу.
+     * index - если без ошибок.
+     * error - в если есть ошибки.
+     */
     @PostMapping("/updateAccident")
-    public String updateAccident(Model model, @ModelAttribute Accident accident) {
+    public String updateAccident(
+            Model model,
+            @ModelAttribute Accident accident,
+            HttpServletRequest req) {
+        String[] ids = req.getParameterValues("rIds");
         model.addAttribute("user", "Petr Arsentev");
         if (accident == null) {
             return goToError(
@@ -102,6 +158,12 @@ public class AccidentControl {
             );
         }
         accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
+        accident.setRules(
+                rules.stream()
+                        .filter(rule -> Arrays.stream(ids).map(s -> Integer.valueOf(s).intValue())
+                                .toList().contains(rule.getId())
+                        ).collect(Collectors.toSet())
+        );
         if (!accidents.update(accident)) {
             model.addAttribute("accident", accident);
             return goToError(
@@ -112,6 +174,15 @@ public class AccidentControl {
         return "redirect:/index";
     }
 
+    /**
+     * <p>Функция для подготовки данных для перехода на страницу ошибки</p>
+     * @param model тип {@link org.springframework.ui.Model} заполняем данными:
+     * @param message тип {@link java.lang.String} сообщение для пользователя с описанием ошибки.
+     *                Будет показано на странице ошибок.
+     * @param link тип {@link java.lang.String} содержит ссылку страницы на которую нужно
+     *             перенаправить после страницы с ошибкой.
+     * @return тип {@link java.lang.String} результат функции, всегда страница ошибки.
+     */
     private String goToError(Model model, String message, String link) {
         model.addAttribute("error", message);
         model.addAttribute("link", link);

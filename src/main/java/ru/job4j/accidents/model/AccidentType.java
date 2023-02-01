@@ -5,6 +5,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+/**
+ * модель данных описывющая тип происшествия (нарушения правил).
+ * Категории по количеству участников и их типу (водитель, пешеход и т.д.).
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

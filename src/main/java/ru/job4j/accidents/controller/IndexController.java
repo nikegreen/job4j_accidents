@@ -11,6 +11,8 @@ import ru.job4j.accidents.service.AccidentService;
  * <p>IndexController class. Spring boot index controller</p>
  * @author nikez
  * @version $Id: $Id
+ * Контрол для отображения главной страницы и обработки результатов страницы:
+ *  - index.html
  */
 @ThreadSafe
 @Controller

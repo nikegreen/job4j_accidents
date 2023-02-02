@@ -48,6 +48,10 @@ public class AccidentJdbcTemplate implements AccidentRepository {
             new Rule(2, "Статья. 2"),
             new Rule(3, "Статья. 3")
     );
+
+    /**
+     * класс мэппер для преобразования строки запроса в объект класса Accident.
+     */
     private final RowMapper<Accident> accidentRowMapper = (resultSet, rowNum) -> {
         Accident accident = new Accident();
         accident.setId(resultSet.getInt("id"));

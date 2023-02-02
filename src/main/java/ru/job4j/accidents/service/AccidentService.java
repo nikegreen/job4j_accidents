@@ -3,10 +3,13 @@ package ru.job4j.accidents.service;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentRepository;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+
 
 /**
  * @author nikez
@@ -124,5 +127,57 @@ public class AccidentService {
      */
     public List<AccidentType> findTypeAll() {
         return accidentRepository.findTypeAll();
+    }
+
+    /**
+     * Найти пункт правил дорожного движения по id. Если нет, то пустой.
+     * @param id - пункт правил дорожного движения, тип int.
+     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.Rule>}
+     */
+    public Optional<Rule> findRuleById(int id) {
+        return accidentRepository.findRuleById(id);
+    }
+
+    /**
+     * Возращает список пунктов правил дорожного движения.
+     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
+     */
+    public List<Rule> findRuleAll() {
+        return accidentRepository.findRuleAll();
+    }
+
+    /**
+     * Возращает список пунктов правил дорожного движения выбранных
+     * в списке идентификаторов пунктов правил дорожного движения.
+     * @param ids тип массив int. Содержит массив типа int.
+     *            В каждой ячейке хранится идентификатор из списка
+     *            пунктов правил дорожного движения.
+     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
+     */
+    public Set<Rule> findRulesByIds(int[] ids) {
+        return accidentRepository.findRulesByIds(ids);
+    }
+
+    /**
+     * Внутренняя функция для установки поля rules класса {@link ru.job4j.accidents.model.Accident}
+     * @param accident тип {@link ru.job4j.accidents.model.Accident} содержит нарушение,
+     *                 в котором нужно заполнить поле rules из {@param ids}.
+     * @param ids массив типа {@link java.lang.String}[]. Массив строк с идентификаторами получаем
+     *            из страницы от элемента тэг - select в режиме множественного выбора, имя "rIds".
+     * @return тип boolean. Вернёт результат выполнения функции.
+     * true  - поле заполнено.
+     * false - не заполнено, ошибка.
+     */
+    public boolean setRules(Accident accident, String[] ids) {
+        boolean result;
+        try {
+            accident.setRules(accidentRepository.findRulesByIds(Arrays.stream(ids)
+                    .mapToInt(Integer::valueOf)
+                    .toArray()));
+            result = true;
+        } catch (Exception e) {
+            result = false;
+        }
+        return result;
     }
 }

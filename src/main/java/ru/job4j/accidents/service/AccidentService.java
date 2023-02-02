@@ -17,36 +17,44 @@ import java.util.Set;
 public class AccidentService {
     private final AccidentRepository accidentRepository;
 
-    public AccidentService(AccidentRepository accidentRepository) {
-        this.accidentRepository = accidentRepository;
+    public AccidentService(AccidentRepository accidentJdbcTemplate) {
+        this.accidentRepository = accidentJdbcTemplate;
         add(new Accident(
                 0,
                 "Павлик Морозов",
                 "Езда с мигалками по пешеходной зоне",
                 "Москва, Красная площадь",
-                accidentRepository.findTypeById(1).orElse(null),
-                Set.of()));
+                this.accidentRepository.findTypeById(1).orElse(null),
+                Set.of(),
+                0
+        ));
         add(new Accident(
                 0,
                 "Павлик Морозов",
                 "Езда в нетрезвом виде",
                 "Ленинград, Петровка 38",
-                accidentRepository.findTypeById(2).orElse(null),
-                Set.of()));
+                this.accidentRepository.findTypeById(2).orElse(null),
+                Set.of(),
+                0
+        ));
         add(new Accident(
                 0,
                 "Дядя Стёпа",
                 "не пропустил пешехода",
                 "Москва, ВДНХ",
-                accidentRepository.findTypeById(3).orElse(null),
-                Set.of()));
+                this.accidentRepository.findTypeById(3).orElse(null),
+                Set.of(),
+                0
+        ));
         add(new Accident(
                 0,
                 "Дядя Стёпа",
                 "проезд по выделенной полосе для городского транспорта",
                 "Москва, ВДНХ",
-                accidentRepository.findTypeById(1).orElse(null),
-                Set.of()));
+                this.accidentRepository.findTypeById(1).orElse(null),
+                Set.of(),
+                0
+        ));
     }
 
     /**

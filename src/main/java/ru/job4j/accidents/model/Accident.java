@@ -16,6 +16,12 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Accident {
+    public enum Status {
+        ACCEPT,
+        DONE,
+        ABORTED
+    }
+
     @EqualsAndHashCode.Include
     private int id;
     private String name;
@@ -23,4 +29,5 @@ public class Accident {
     private String address;
     private AccidentType type;
     private Set<Rule> rules;
+    private int status;
 }

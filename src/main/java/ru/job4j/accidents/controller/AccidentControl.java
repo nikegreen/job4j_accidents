@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.service.AccidentService;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author nikez
@@ -26,12 +24,6 @@ import java.util.stream.Collectors;
 public class AccidentControl {
     private final AccidentService accidents;
 
-    private  final List<Rule> rules = List.of(
-            new Rule(1, "Статья. 1"),
-            new Rule(2, "Статья. 2"),
-            new Rule(3, "Статья. 3")
-    );
-
     /**
      * <p>Страница сервиса для создания нового происшествия.</p>
      * @param model тип {@link org.springframework.ui.Model}
@@ -43,7 +35,7 @@ public class AccidentControl {
     public String viewCreateAccident(Model model) {
         model.addAttribute("types", accidents.findTypeAll());
         model.addAttribute("user", "Petr Arsentev");
-        model.addAttribute("rules", rules);
+        model.addAttribute("rules", accidents.findRuleAll());
         return "createAccident";
     }
 
@@ -79,12 +71,13 @@ public class AccidentControl {
             );
         }
         accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
-        accident.setRules(
-             rules.stream()
-                  .filter(rule -> Arrays.stream(ids).map(s -> Integer.valueOf(s).intValue())
-                        .toList().contains(rule.getId())
-                  ).collect(Collectors.toSet())
-        );
+        if (!accidents.setRules(accident, ids)) {
+            model.addAttribute("accident", accident);
+            return goToError(
+                    model,
+                    "Не распознан список идентификаторов пунктов правил. Не сохранено в хранилище.",
+                    "/index");
+        }
         if (!accidents.add(accident)) {
             return goToError(
                     model,
@@ -121,7 +114,7 @@ public class AccidentControl {
         }
         model.addAttribute("accident", accidentRes.get());
         model.addAttribute("types", accidents.findTypeAll());
-        model.addAttribute("rules", rules);
+        model.addAttribute("rules", accidents.findRuleAll());
         return "editAccident";
     }
 
@@ -158,12 +151,13 @@ public class AccidentControl {
             );
         }
         accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
-        accident.setRules(
-                rules.stream()
-                        .filter(rule -> Arrays.stream(ids).map(s -> Integer.valueOf(s).intValue())
-                                .toList().contains(rule.getId())
-                        ).collect(Collectors.toSet())
-        );
+        if (!accidents.setRules(accident, ids)) {
+            model.addAttribute("accident", accident);
+            return goToError(
+                    model,
+                    "Не распознан список идентификаторов пунктов правил. Не сохранено в хранилище.",
+                    "/index");
+        }
         if (!accidents.update(accident)) {
             model.addAttribute("accident", accident);
             return goToError(

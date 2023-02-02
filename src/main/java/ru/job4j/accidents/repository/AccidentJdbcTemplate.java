@@ -4,9 +4,7 @@ import org.springframework.jdbc.core.RowMapper;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
@@ -45,6 +43,11 @@ public class AccidentJdbcTemplate implements AccidentRepository {
                     new AccidentType(3, "Машина и велосипед")
             )
     );
+    private  final List<Rule> rules = List.of(
+            new Rule(1, "Статья. 1"),
+            new Rule(2, "Статья. 2"),
+            new Rule(3, "Статья. 3")
+    );
     private final RowMapper<Accident> accidentRowMapper = (resultSet, rowNum) -> {
         Accident accident = new Accident();
         accident.setId(resultSet.getInt("id"));
@@ -52,9 +55,7 @@ public class AccidentJdbcTemplate implements AccidentRepository {
         accident.setText(resultSet.getString("_text"));
         accident.setAddress(resultSet.getString("address"));
         accident.setType(this.findTypeById(resultSet.getInt("type_id")).orElse(null));
-        accident.setRules(
-                findRulesForId(resultSet.getInt("id")).stream().collect(Collectors.toSet())
-        );
+        accident.setRules(findRulesForId(resultSet.getInt("id")));
         accident.setStatus(resultSet.getInt("status"));
         return accident;
     };
@@ -110,16 +111,16 @@ public class AccidentJdbcTemplate implements AccidentRepository {
      * Вспомогательная функция, для заполнения {@link ru.job4j.accidents.model.Accident}.rules.
      * @param id нарушения
      * @return список выбранных пунктов правил для нарушения с {@param id}
-     * тип {@link java.util.List<ru.job4j.accidents.model.Rule>}
+     * тип {@link java.util.Set<ru.job4j.accidents.model.Rule>}
      */
-    private List<Rule> findRulesForId(int id) {
-        return jdbc.query(
+    private Set<Rule> findRulesForId(int id) {
+        return Set.copyOf(jdbc.query(
                 SQL_FIND_ALL_RULES_FOR_ID,
                 (rs, row) -> {
                     Rule rule = new Rule();
                     rule.setId(rs.getInt("rule_id"));
                     return rule;
-                }, id);
+                }, id));
     }
 
     /**
@@ -140,8 +141,7 @@ public class AccidentJdbcTemplate implements AccidentRepository {
      */
     @Override
     public Optional<Accident> findById(int id) {
-        Accident accident1 = null;
-        accident1 = this.jdbc.queryForObject(
+        Accident accident1 = this.jdbc.queryForObject(
                 SQL_FIND_BY_ID,
                 accidentRowMapper,
                 id
@@ -211,5 +211,43 @@ public class AccidentJdbcTemplate implements AccidentRepository {
                     rule.getId()
             );
         }
+    }
+
+    /**
+     * Найти пункт правил дорожного движения по id. Если нет, то пустой.
+     * @param id - пункт правил дорожного движения, тип int.
+     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.Rule>}
+     */
+    @Override
+    public Optional<Rule> findRuleById(int id) {
+        return rules.stream().filter(rule -> rule.getId() == id).findFirst();
+    }
+
+    /**
+     * Возращает список пунктов правил дорожного движения.
+     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
+     */
+    @Override
+    public List<Rule> findRuleAll() {
+        return rules;
+    }
+
+    /**
+     * Возращает список пунктов правил дорожного движения выбранных
+     * в списке идентификаторов пунктов правил дорожного движения.
+     * @param ids тип массив int. Содержит массив типа int.
+     *            В каждой ячейке хранится идентификатор из списка
+     *            пунктов правил дорожного движения.
+     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
+     */
+    @Override
+    public Set<Rule> findRulesByIds(int[] ids) {
+        return rules.stream()
+                .filter(
+                        rule -> Arrays.stream(ids)
+                                .filter(id -> rule.getId() == id)
+                                .findFirst()
+                                .isPresent()
+                ).collect(Collectors.toSet());
     }
 }

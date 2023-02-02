@@ -22,42 +22,6 @@ public class AccidentService {
 
     public AccidentService(AccidentRepository accidentJdbcTemplate) {
         this.accidentRepository = accidentJdbcTemplate;
-        add(new Accident(
-                0,
-                "Павлик Морозов",
-                "Езда с мигалками по пешеходной зоне",
-                "Москва, Красная площадь",
-                this.accidentRepository.findTypeById(1).orElse(null),
-                Set.of(),
-                0
-        ));
-        add(new Accident(
-                0,
-                "Павлик Морозов",
-                "Езда в нетрезвом виде",
-                "Ленинград, Петровка 38",
-                this.accidentRepository.findTypeById(2).orElse(null),
-                Set.of(),
-                0
-        ));
-        add(new Accident(
-                0,
-                "Дядя Стёпа",
-                "не пропустил пешехода",
-                "Москва, ВДНХ",
-                this.accidentRepository.findTypeById(3).orElse(null),
-                Set.of(),
-                0
-        ));
-        add(new Accident(
-                0,
-                "Дядя Стёпа",
-                "проезд по выделенной полосе для городского транспорта",
-                "Москва, ВДНХ",
-                this.accidentRepository.findTypeById(1).orElse(null),
-                Set.of(),
-                0
-        ));
     }
 
     /**

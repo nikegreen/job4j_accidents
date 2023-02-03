@@ -7,21 +7,19 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-/**
- * модель данных описывющая тип происшествия (нарушения правил).
- * Категории по количеству участников и их типу (водитель, пешеход и т.д.).
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
-@Table(name = "accident_type")
-public class AccidentType {
+@Table(name = "accident_rule")
+public class AccidentRule {
     @EqualsAndHashCode.Include
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private String name;
+    @Column(name = "accident_id")
+    private int accidentId;
+    @Column(name = "rule_id")
+    private int ruleId;
 }

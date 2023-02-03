@@ -7,4 +7,7 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <include file="scripts/001_ddl_create_accident_accident_rule_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/002_dml_insert_accidents.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_ddl_create_accident_type_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/004_dml_insert_accident_type.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_add_reference_for_column_type_id_in_table_accident.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

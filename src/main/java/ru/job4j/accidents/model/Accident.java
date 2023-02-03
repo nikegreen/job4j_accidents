@@ -30,11 +30,19 @@ public class Accident {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Column(name = "_text")
     private String text;
     private String address;
     @ManyToOne
     @JoinColumn (name = "type_id")
     private AccidentType type;
+
+    @ManyToMany
+    @JoinTable(
+            name = "accident_rule",
+            joinColumns = { @JoinColumn(name = "accident_id") },
+            inverseJoinColumns = { @JoinColumn(name = "rule_id") }
+    )
     private Set<Rule> rules;
     private int status;
 }

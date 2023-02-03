@@ -18,10 +18,10 @@ public class AccidentService {
     private final AccidentRepository accidentRepository;
     private final RuleRepository ruleRepository;
 
-    public AccidentService(AccidentRepository accidentJdbcTemplate,
-                           RuleRepository ruleJdbcTemplate) {
-        this.accidentRepository = accidentJdbcTemplate;
-        this.ruleRepository = ruleJdbcTemplate;
+    public AccidentService(AccidentRepository accidentHibernate,
+                           RuleRepository ruleHibernate) {
+        this.accidentRepository = accidentHibernate;
+        this.ruleRepository = ruleHibernate;
     }
 
     /**

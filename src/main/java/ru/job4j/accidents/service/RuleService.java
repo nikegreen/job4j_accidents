@@ -3,8 +3,7 @@ package ru.job4j.accidents.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.RuleJdbcTemplate;
-
+import ru.job4j.accidents.repository.RuleHibernate;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -17,7 +16,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RuleService {
-    private final RuleJdbcTemplate ruleRepository;
+    private final RuleHibernate ruleRepository;
     /**
      * Найти пункт правил дорожного движения по id. Если нет, то пустой.
      * @param id - пункт правил дорожного движения, тип int.

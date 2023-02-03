@@ -3,8 +3,7 @@ package ru.job4j.accidents.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.repository.TypeJdbcTemplate;
-
+import ru.job4j.accidents.repository.TypeHibernate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TypeService {
-    private final TypeJdbcTemplate typeRepository;
+    private final TypeHibernate typeRepository;
 
     /**
      * Возращает список типов происшествий.

@@ -5,8 +5,6 @@ import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -36,18 +34,7 @@ public class AccidentJdbcTemplate implements AccidentRepository {
 
     private final JdbcTemplate jdbc;
 
-    private final List<AccidentType> types = new ArrayList<>(
-            List.of(
-                    new AccidentType(1, "Две машины"),
-                    new AccidentType(2, "Машина и человек"),
-                    new AccidentType(3, "Машина и велосипед")
-            )
-    );
-    private  final List<Rule> rules = List.of(
-            new Rule(1, "Статья. 1"),
-            new Rule(2, "Статья. 2"),
-            new Rule(3, "Статья. 3")
-    );
+    private final TypeJdbcTemplate types;
 
     /**
      * класс мэппер для преобразования строки запроса в объект класса Accident.
@@ -180,21 +167,8 @@ public class AccidentJdbcTemplate implements AccidentRepository {
      * @param id - идентификатор типа происшествия.
      * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.AccidentType>}
      */
-    @Override
-    public Optional<AccidentType> findTypeById(int id) {
-        if (id < 1 || id > types.size()) {
-            return Optional.empty();
-        }
-        return Optional.ofNullable(types.get(id - 1));
-    }
-
-    /**
-     * Возращает список типов происшествий.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.AccidentType>}
-     */
-    @Override
-    public List<AccidentType> findTypeAll() {
-        return types;
+    private Optional<AccidentType> findTypeById(int id) {
+        return types.findById(id);
     }
 
     /**
@@ -215,43 +189,5 @@ public class AccidentJdbcTemplate implements AccidentRepository {
                     rule.getId()
             );
         }
-    }
-
-    /**
-     * Найти пункт правил дорожного движения по id. Если нет, то пустой.
-     * @param id - пункт правил дорожного движения, тип int.
-     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.Rule>}
-     */
-    @Override
-    public Optional<Rule> findRuleById(int id) {
-        return rules.stream().filter(rule -> rule.getId() == id).findFirst();
-    }
-
-    /**
-     * Возращает список пунктов правил дорожного движения.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
-     */
-    @Override
-    public List<Rule> findRuleAll() {
-        return rules;
-    }
-
-    /**
-     * Возращает список пунктов правил дорожного движения выбранных
-     * в списке идентификаторов пунктов правил дорожного движения.
-     * @param ids тип массив int. Содержит массив типа int.
-     *            В каждой ячейке хранится идентификатор из списка
-     *            пунктов правил дорожного движения.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
-     */
-    @Override
-    public Set<Rule> findRulesByIds(int[] ids) {
-        return rules.stream()
-                .filter(
-                        rule -> Arrays.stream(ids)
-                                .filter(id -> rule.getId() == id)
-                                .findFirst()
-                                .isPresent()
-                ).collect(Collectors.toSet());
     }
 }

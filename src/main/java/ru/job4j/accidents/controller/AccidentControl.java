@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentService;
+import ru.job4j.accidents.service.RuleService;
+import ru.job4j.accidents.service.TypeService;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
@@ -23,6 +26,8 @@ import java.util.*;
 @AllArgsConstructor
 public class AccidentControl {
     private final AccidentService accidents;
+    private final TypeService types;
+    private final RuleService rules;
 
     /**
      * <p>Страница сервиса для создания нового происшествия.</p>
@@ -33,9 +38,9 @@ public class AccidentControl {
      */
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
-        model.addAttribute("types", accidents.findTypeAll());
+        model.addAttribute("types", types.findAll());
         model.addAttribute("user", "Petr Arsentev");
-        model.addAttribute("rules", accidents.findRuleAll());
+        model.addAttribute("rules", rules.findAll());
         return "createAccident";
     }
 
@@ -60,29 +65,29 @@ public class AccidentControl {
             return goToError(
                     model,
                     "Не получены данные происшествия, не сохранено в хранилище.",
-                    "/index");
+                    "redirect:/index");
         }
         if (accident.getType() == null
-                || accidents.findTypeById(accident.getType().getId()).isEmpty()) {
+                || types.findById(accident.getType().getId()).isEmpty()) {
             return goToError(
                     model,
                     "Не распознан тип происшествия. Не сохранено в хранилище.",
-                    "/index"
+                    "redirect:/index"
             );
         }
-        accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
+        accident.setType(types.findById(accident.getType().getId()).orElse(null));
         if (!accidents.setRules(accident, ids)) {
             model.addAttribute("accident", accident);
             return goToError(
                     model,
                     "Не распознан список идентификаторов пунктов правил. Не сохранено в хранилище.",
-                    "/index");
+                    "redirect:/index");
         }
         if (!accidents.add(accident)) {
             return goToError(
                     model,
                     "Не сохранено в хранилище.",
-                    "/index"
+                    "redirect:/index"
             );
         }
         return "redirect:/index";
@@ -103,18 +108,18 @@ public class AccidentControl {
             return goToError(
                     model,
                     "Не получен ID происшествия или меньше 1",
-                    "/index");
+                    "redirect:/index");
         }
         Optional<Accident> accidentRes = accidents.findById(id);
         if (accidentRes.isEmpty()) {
             return goToError(
                     model,
                     "Происшествие с id=" + id + " не найдено",
-                    "/index");
+                    "redirect:/index");
         }
         model.addAttribute("accident", accidentRes.get());
-        model.addAttribute("types", accidents.findTypeAll());
-        model.addAttribute("rules", accidents.findRuleAll());
+        model.addAttribute("types", types.findAll());
+        model.addAttribute("rules", rules.findAll());
         return "editAccident";
     }
 
@@ -140,30 +145,30 @@ public class AccidentControl {
             return goToError(
                     model,
                     "Не получено содержание происшествия. Не сохранено в хранилище",
-                    "/index");
+                    "redirect:/index");
         }
         if (accident.getType() == null
-                || accidents.findTypeById(accident.getType().getId()).isEmpty()) {
+                || types.findById(accident.getType().getId()).isEmpty()) {
             return goToError(
                     model,
                     "Не распознан тип происшествия. Не сохранено в хранилище.",
-                    "/index"
+                    "redirect:/index"
             );
         }
-        accident.setType(accidents.findTypeById(accident.getType().getId()).orElse(null));
+        accident.setType(types.findById(accident.getType().getId()).orElse(null));
         if (!accidents.setRules(accident, ids)) {
             model.addAttribute("accident", accident);
             return goToError(
                     model,
                     "Не распознан список идентификаторов пунктов правил. Не сохранено в хранилище.",
-                    "/index");
+                    "redirect:/index");
         }
         if (!accidents.update(accident)) {
             model.addAttribute("accident", accident);
             return goToError(
                     model,
                     "Не удалось обновить происшествие в хранилище",
-                    "/index");
+                    "redirect:/index");
         }
         return "redirect:/index";
     }

@@ -1,12 +1,8 @@
 package ru.job4j.accidents.repository;
 
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.model.Rule;
-
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * интерфейс хранилища для происшествий (Accident)
@@ -53,40 +49,4 @@ public interface AccidentRepository {
      * false - ошибка обновления. Может отсутствовать id.
      */
     boolean update(Accident accident);
-
-    /**
-     * Найти тип происшествия по id. Емли нет, то пустой.
-     * @param id - идентификатор типа происшествия.
-     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.AccidentType>}
-     */
-    Optional<AccidentType> findTypeById(int id);
-
-    /**
-     * Возращает список типов происшествий.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.AccidentType>}
-     */
-    List<AccidentType> findTypeAll();
-
-    /**
-     * Найти пункт правил дорожного движения по id. Если нет, то пустой.
-     * @param id - пункт правил дорожного движения, тип int.
-     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.Rule>}
-     */
-    Optional<Rule> findRuleById(int id);
-
-    /**
-     * Возращает список пунктов правил дорожного движения.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
-     */
-    List<Rule> findRuleAll();
-
-    /**
-     * Возращает список пунктов правил дорожного движения выбранных
-     * в списке идентификаторов пунктов правил дорожного движения.
-     * @param ids тип массив int. Содержит массив типа int.
-     *            В каждой ячейке хранится идентификатор из списка
-     *            пунктов правил дорожного движения.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
-     */
-    Set<Rule> findRulesByIds(int[] ids);
 }

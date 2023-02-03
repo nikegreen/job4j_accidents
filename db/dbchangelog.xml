@@ -10,4 +10,7 @@
     <include file="scripts/003_ddl_create_accident_type_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_dml_insert_accident_type.sql" relativeToChangelogFile="true"/>
     <include file="scripts/005_ddl_add_reference_for_column_type_id_in_table_accident.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_ddl_create_rule_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_dml_insert_rule.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_add_reference_for_column_rule_id_in_table_accident_rule.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

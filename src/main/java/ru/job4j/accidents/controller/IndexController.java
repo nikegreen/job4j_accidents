@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.job4j.accidents.service.AccidentService;
+import ru.job4j.accidents.service.TypeService;
 
 /**
  * <p>IndexController class. Spring boot index controller</p>
@@ -19,6 +20,7 @@ import ru.job4j.accidents.service.AccidentService;
 @RequiredArgsConstructor
 public class IndexController {
     private final AccidentService accidentService;
+    private final TypeService typeService;
 
     /**
      * <p>Главная страница сервиса -  index.</p>
@@ -29,7 +31,7 @@ public class IndexController {
     public String index(Model model) {
         model.addAttribute("user", "Petr Arsentev");
         model.addAttribute("accidents", accidentService.findAll());
-        model.addAttribute("types", accidentService.findTypeAll());
+        model.addAttribute("types", typeService.findAll());
         return "index";
     }
 }

@@ -2,14 +2,11 @@ package ru.job4j.accidents.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.AccidentType;
-import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentRepository;
+import ru.job4j.accidents.repository.RuleRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-
 
 /**
  * @author nikez
@@ -19,9 +16,12 @@ import java.util.Set;
 @Service
 public class AccidentService {
     private final AccidentRepository accidentRepository;
+    private final RuleRepository ruleRepository;
 
-    public AccidentService(AccidentRepository accidentJdbcTemplate) {
+    public AccidentService(AccidentRepository accidentJdbcTemplate,
+                           RuleRepository ruleJdbcTemplate) {
         this.accidentRepository = accidentJdbcTemplate;
+        this.ruleRepository = ruleJdbcTemplate;
     }
 
     /**
@@ -77,52 +77,6 @@ public class AccidentService {
     }
 
     /**
-     * Найти тип происшествия по id. Емли нет, то пустой.
-     * @param id - идентификатор типа происшествия.
-     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.AccidentType>}
-     */
-    public Optional<AccidentType> findTypeById(int id) {
-        return accidentRepository.findTypeById(id);
-    }
-
-    /**
-     * Возращает список типов происшествий.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.AccidentType>}
-     */
-    public List<AccidentType> findTypeAll() {
-        return accidentRepository.findTypeAll();
-    }
-
-    /**
-     * Найти пункт правил дорожного движения по id. Если нет, то пустой.
-     * @param id - пункт правил дорожного движения, тип int.
-     * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.Rule>}
-     */
-    public Optional<Rule> findRuleById(int id) {
-        return accidentRepository.findRuleById(id);
-    }
-
-    /**
-     * Возращает список пунктов правил дорожного движения.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
-     */
-    public List<Rule> findRuleAll() {
-        return accidentRepository.findRuleAll();
-    }
-
-    /**
-     * Возращает список пунктов правил дорожного движения выбранных
-     * в списке идентификаторов пунктов правил дорожного движения.
-     * @param ids тип массив int. Содержит массив типа int.
-     *            В каждой ячейке хранится идентификатор из списка
-     *            пунктов правил дорожного движения.
-     * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
-     */
-    public Set<Rule> findRulesByIds(int[] ids) {
-        return accidentRepository.findRulesByIds(ids);
-    }
-
-    /**
      * Внутренняя функция для установки поля rules класса {@link ru.job4j.accidents.model.Accident}
      * @param accident тип {@link ru.job4j.accidents.model.Accident} содержит нарушение,
      *                 в котором нужно заполнить поле rules из {@param ids}.
@@ -135,7 +89,7 @@ public class AccidentService {
     public boolean setRules(Accident accident, String[] ids) {
         boolean result;
         try {
-            accident.setRules(accidentRepository.findRulesByIds(Arrays.stream(ids)
+            accident.setRules(ruleRepository.findRulesByIds(Arrays.stream(ids)
                     .mapToInt(Integer::valueOf)
                     .toArray()));
             result = true;

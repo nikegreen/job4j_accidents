@@ -54,7 +54,7 @@
           </div>
           <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
         </form>
-        <form th:action="${'/'+link}" method="POST" enctype="multipart/form-data" th:if="${link!=null}">
+        <form th:action="${link}" method="POST" enctype="multipart/form-data" th:if="${link!=null}">
           <input type="hidden" name="id"  th:field="*{id}"/>
           <div class="form-group">
             <label for="name1">Имя</label>
@@ -75,7 +75,7 @@
         <form th:action="@{/index}" method="POST" enctype="multipart/form-data" th:if="${link==null}">
           <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
         </form>
-        <form th:action="${'/'+link}" method="POST" enctype="multipart/form-data" th:if="${link!=null}">
+        <form th:action="${link}" method="POST" enctype="multipart/form-data" th:if="${link!=null}">
           <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
         </form>
       </div>

@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.service.AccidentService;
-import ru.job4j.accidents.service.RuleService;
-import ru.job4j.accidents.service.TypeService;
+import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.service.AccidentCrudService;
+import ru.job4j.accidents.service.RuleCrudService;
+import ru.job4j.accidents.service.TypeCrudService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -25,9 +26,9 @@ import java.util.*;
 @Controller
 @AllArgsConstructor
 public class AccidentControl {
-    private final AccidentService accidents;
-    private final TypeService types;
-    private final RuleService rules;
+    private final AccidentCrudService accidents;
+    private final TypeCrudService types;
+    private final RuleCrudService rules;
 
     /**
      * <p>Страница сервиса для создания нового происшествия.</p>
@@ -155,7 +156,10 @@ public class AccidentControl {
                     "redirect:/index"
             );
         }
-        accident.setType(types.findById(accident.getType().getId()).orElse(null));
+        int i = accident.getType().getId();
+        AccidentType a = types.findById(i).orElse(null);
+        accident.setType(a);
+        //accident.setType(types.findById(accident.getType().getId()).orElse(null));
         if (!accidents.setRules(accident, ids)) {
             model.addAttribute("accident", accident);
             return goToError(

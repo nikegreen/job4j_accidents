@@ -7,20 +7,16 @@ import ru.job4j.accidents.repository.TypeHibernate;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author nikez
- * @version $Id: $Id
- * Класс сервис для типов происшествий по количеству и участникам происшествия (AccidentType)
- */
 @Service
 @RequiredArgsConstructor
-public class TypeService {
+public class TypeHibernateService implements AbstractTypeService {
     private final TypeHibernate typeRepository;
 
     /**
      * Возращает список типов происшествий.
      * @return список {@link java.util.List<ru.job4j.accidents.model.AccidentType>}
      */
+    @Override
     public List<AccidentType> findAll() {
         return typeRepository.findAll();
     }
@@ -30,6 +26,7 @@ public class TypeService {
      * @param id - идентификатор типа происшествия.
      * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.AccidentType>}
      */
+    @Override
     public Optional<AccidentType> findById(int id) {
         return typeRepository.findById(id);
     }

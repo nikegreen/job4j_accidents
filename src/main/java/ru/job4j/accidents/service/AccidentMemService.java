@@ -1,28 +1,20 @@
 package ru.job4j.accidents.service;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.repository.AccidentRepository;
-import ru.job4j.accidents.repository.RuleRepository;
+import ru.job4j.accidents.repository.AccidentMem;
+import ru.job4j.accidents.repository.RuleMem;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * @author nikez
- * @version $Id: $Id
- * Класс сервис для происшествий (Accident)
- */
 @Service
-public class AccidentService {
-    private final AccidentRepository accidentRepository;
-    private final RuleRepository ruleRepository;
-
-    public AccidentService(AccidentRepository accidentHibernate,
-                           RuleRepository ruleHibernate) {
-        this.accidentRepository = accidentHibernate;
-        this.ruleRepository = ruleHibernate;
-    }
+@RequiredArgsConstructor
+public class AccidentMemService implements AbstractAccidentService {
+    private final AccidentMem accidents;
+    private final RuleMem rules;
 
     /**
      * Функция добавляет в хранилище новое происшествие. Затирает id новым значением.
@@ -33,7 +25,7 @@ public class AccidentService {
      * false - ошибка
      */
     public boolean add(Accident accident) {
-        return accidentRepository.add(accident);
+        return accidents.add(accident);
     }
 
     /**
@@ -44,7 +36,7 @@ public class AccidentService {
      * false - ошибка или нет в хранилище.
      */
     public boolean delete(int id) {
-        return accidentRepository.delete(id);
+        return accidents.delete(id);
     }
 
     /**
@@ -52,7 +44,7 @@ public class AccidentService {
      * @return список типа {@link java.util.List<ru.job4j.accidents.model.Accident>}
      */
     public List<Accident> findAll() {
-        return accidentRepository.findAll();
+        return accidents.findAll();
     }
 
     /**
@@ -62,7 +54,7 @@ public class AccidentService {
      * если не найдено, то результат Optional.Empty
      */
     public Optional<Accident> findById(int id) {
-        return accidentRepository.findById(id);
+        return accidents.findById(id);
     }
 
     /**
@@ -73,7 +65,7 @@ public class AccidentService {
      * false - ошибка обновления. Может отсутствовать id.
      */
     public boolean update(Accident accident) {
-        return accidentRepository.update(accident);
+        return accidents.update(accident);
     }
 
     /**
@@ -89,9 +81,15 @@ public class AccidentService {
     public boolean setRules(Accident accident, String[] ids) {
         boolean result;
         try {
-            accident.setRules(ruleRepository.findRulesByIds(Arrays.stream(ids)
-                    .mapToInt(Integer::valueOf)
-                    .toArray()));
+            accident.setRules(
+                    Streamable.of(
+                            rules.findRulesByIds(
+                                    Arrays.stream(ids)
+                                            .mapToInt(Integer::valueOf)
+                                            .toArray()
+                            )
+                    ).toSet()
+            );
             result = true;
         } catch (Exception e) {
             result = false;

@@ -1,9 +1,11 @@
 package ru.job4j.accidents.service;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.RuleHibernate;
+import ru.job4j.accidents.repository.AbstractRepository;
+import ru.job4j.accidents.repository.RuleCrudRepository;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,9 +16,13 @@ import java.util.Set;
  * Класс сервис для пункта правил (Rule)
  */
 @Service
-@RequiredArgsConstructor
-public class RuleService {
-    private final RuleHibernate ruleRepository;
+public class RuleCrudService implements AbstractRuleService {
+    private final AbstractRepository<Rule> rules;
+
+    public RuleCrudService(RuleCrudRepository ruleRepository) {
+        this.rules = new AbstractRepository<>(ruleRepository);
+    }
+
     /**
      * Найти пункт правил дорожного движения по id. Если нет, то пустой.
      * @param id - пункт правил дорожного движения, тип int.
@@ -24,7 +30,7 @@ public class RuleService {
      */
 
     public Optional<Rule> findById(int id) {
-        return ruleRepository.findById(id);
+        return rules.findById(id);
     }
 
     /**
@@ -32,7 +38,7 @@ public class RuleService {
      * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
      */
     public List<Rule> findAll() {
-        return ruleRepository.findAll();
+        return rules.findAll();
     }
 
     /**
@@ -44,6 +50,8 @@ public class RuleService {
      * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
      */
     public Set<Rule> findRulesByIds(int[] ids) {
-        return ruleRepository.findRulesByIds(ids);
+        return  Streamable.of(
+                rules.getRepository().findAllById(Arrays.stream(ids).boxed().toList())
+        ).toSet();
     }
 }

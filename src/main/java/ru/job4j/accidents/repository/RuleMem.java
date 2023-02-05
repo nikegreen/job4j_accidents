@@ -1,13 +1,14 @@
 package ru.job4j.accidents.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Rule;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Repository
 public class RuleMem implements RuleRepository {
     private  final List<Rule> rules = List.of(
             new Rule(1, "Статья. 1"),

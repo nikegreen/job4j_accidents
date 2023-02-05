@@ -5,8 +5,8 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.job4j.accidents.service.AccidentService;
-import ru.job4j.accidents.service.TypeService;
+import ru.job4j.accidents.service.AccidentCrudService;
+import ru.job4j.accidents.service.TypeCrudService;
 
 /**
  * <p>IndexController class. Spring boot index controller</p>
@@ -19,8 +19,8 @@ import ru.job4j.accidents.service.TypeService;
 @Controller
 @RequiredArgsConstructor
 public class IndexController {
-    private final AccidentService accidentService;
-    private final TypeService typeService;
+    private final AccidentCrudService accidentService;
+    private final TypeCrudService typeService;
 
     /**
      * <p>Главная страница сервиса -  index.</p>

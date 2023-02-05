@@ -1,6 +1,7 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +40,10 @@ public class AccidentControl {
      */
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {
+        model.addAttribute(
+                "user",
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("types", types.findAll());
-        model.addAttribute("user", "Petr Arsentev");
         model.addAttribute("rules", rules.findAll());
         return "createAccident";
     }
@@ -61,7 +64,9 @@ public class AccidentControl {
                        @ModelAttribute Accident accident,
                        HttpServletRequest req) {
         String[] ids = req.getParameterValues("rIds");
-        model.addAttribute("user", "Petr Arsentev");
+        model.addAttribute(
+                "user",
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         if (accident == null) {
             return goToError(
                     model,
@@ -104,7 +109,9 @@ public class AccidentControl {
      */
     @GetMapping("/editAccident")
     public String viewEditAccident(Model model, @RequestParam("id") int id) {
-        model.addAttribute("user", "Petr Arsentev");
+        model.addAttribute(
+                "user",
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         if (id < 1) {
             return goToError(
                     model,
@@ -141,7 +148,9 @@ public class AccidentControl {
             @ModelAttribute Accident accident,
             HttpServletRequest req) {
         String[] ids = req.getParameterValues("rIds");
-        model.addAttribute("user", "Petr Arsentev");
+        model.addAttribute(
+                "user",
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         if (accident == null) {
             return goToError(
                     model,

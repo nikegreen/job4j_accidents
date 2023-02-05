@@ -28,7 +28,7 @@
                         <li class="nav-item"><a href="/page4" class="nav-link px-2 text-white">меню 4</a></li>
                         <li class="nav-item"><a href="/logout" class="nav-link px-2 text-white">выйти</a></li>
                     </ul>
-                    <span class="navbar-text text-end" th:text="${user}"></span>
+                    <span class="navbar-text text-end" th:text="${user.username}"></span>
             </nav>
     </header>
     <main class="container mt-2">
@@ -46,28 +46,28 @@
                 </thead>
                 <tbody>
                     <tr th:each="accident:${accidents}">
-                        <th scope="row" th:if="${user!=accident.name}" th:text="${accident.id}"></th>
-                        <th scope="row" th:if="${user==accident.name}">
+                        <th scope="row" th:if="${user.username!=accident.name}" th:text="${accident.id}"></th>
+                        <th scope="row" th:if="${user.username==accident.name}">
                             <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.id}"></a>
                         </th>
-                        <td colspan="2" th:if="${user!=accident.name}" th:text="${accident.name}"></td>
-                        <td colspan="2" th:if="${user==accident.name}">
+                        <td colspan="2" th:if="${user.username!=accident.name}" th:text="${accident.name}"></td>
+                        <td colspan="2" th:if="${user.username==accident.name}">
                             <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.name}"></a>
                         </td>
-                        <td th:if="${user!=accident.name}" th:text="${accident.text}"></td>
-                        <td th:if="${user==accident.name}">
+                        <td th:if="${user.username!=accident.name}" th:text="${accident.text}"></td>
+                        <td th:if="${user.username==accident.name}">
                             <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.text}"></a>
                         </td>
-                        <td th:if="${user!=accident.name}" th:text="${accident.address}"></td>
-                        <td th:if="${user==accident.name}">
+                        <td th:if="${user.username!=accident.name}" th:text="${accident.address}"></td>
+                        <td th:if="${user.username==accident.name}">
                             <a th:href="@{'/editAccident?id='+${accident.id}}"  th:text="${accident.address}"></a>
                         </td>
-                        <td th:if="${user!=accident.name}" th:text="${types.get(accident.type.id-1).name}"></td>
-                        <td th:if="${user==accident.name}">
+                        <td th:if="${user.username!=accident.name}" th:text="${types.get(accident.type.id-1).name}"></td>
+                        <td th:if="${user.username==accident.name}">
                             <a th:href="@{'/editAccident?id='+${accident.id}}" th:text="${types.get(accident.type.id-1).name}"></a>
                         </td>
-                        <td th:if="${user!=accident.name}">принято</td>
-                        <td th:if="${user==accident.name}">
+                        <td th:if="${user.username!=accident.name}">принято</td>
+                        <td th:if="${user.username==accident.name}">
                             <a th:href="@{'/editAccident?id='+${accident.id}}">принято</a>
                         </td>
                     </tr>

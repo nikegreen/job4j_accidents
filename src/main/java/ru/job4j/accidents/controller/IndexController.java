@@ -2,6 +2,7 @@ package ru.job4j.accidents.controller;
 
 import lombok.RequiredArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,11 @@ public class IndexController {
     private final AccidentCrudService accidentService;
     private final TypeCrudService typeService;
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/index";
+    }
+
     /**
      * <p>Главная страница сервиса -  index.</p>
      * всегда вернёт
@@ -29,7 +35,9 @@ public class IndexController {
      */
     @GetMapping("/index")
     public String index(Model model) {
-        model.addAttribute("user", "Petr Arsentev");
+        model.addAttribute(
+                "user",
+                SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         model.addAttribute("accidents", accidentService.findAll());
         model.addAttribute("types", typeService.findAll());
         return "index";

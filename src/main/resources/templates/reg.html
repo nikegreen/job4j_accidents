@@ -1,0 +1,78 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="страница регистрации сервиса Автонарушители">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors, Nike Zelensky aka Nike Z.">
+    <meta name="generator" content="Hugo 0.104.2">
+    <title>Автомобильные инциденты - регистрация</title>
+    <link href="https://getbootstrap.com/docs/5.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/css/signin.css" rel="stylesheet">
+    <script type="text/javascript">
+        let defColor = null;
+      function checkPasswords(){
+        let input = document.getElementById('username');
+        let input1 = document.getElementById('password');
+        let input2 = document.getElementById('password2');
+        let button = document.getElementById('submit');
+        if (defColor == null) {
+            defColor = input.style.borderColor;
+        }
+        let isDisable = input.value == '';
+        if (isDisable) {
+          input.style.borderColor = 'red';
+        } else {
+          input.style.borderColor = defColor;
+        }
+        if (input1.value !='' && input1.value == input2.value)
+        {
+          input1.style.borderColor = defColor;
+          input2.style.borderColor = defColor;
+          button.disabled = isDisable;
+        }else{
+          input1.style.borderColor = 'red';
+          input2.style.borderColor = 'red';
+          button.disabled = true;
+        };
+      };
+    </script>
+</head>
+<body class="text-center">
+<main class="form-signin w-100 m-auto">
+    <form th:action="@{/reg}" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        <!--    <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">-->
+        <h1 class="h3 mb-3 fw-normal">Пожалуйста, зарегистрируйтесь</h1>
+        <div th:if="${not #lists.isEmpty(errorMessage)}" class="form-floating alert alert-danger p-1" role="alert" th:text="${errorMessage}">
+        </div>
+        <div class="form-floating">
+            <input type="text" class="form-control input-head" id="username" placeholder="имя пользователя" name="username" oninput="checkPasswords()">
+            <label for="username">Имя пользователя</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control input-body" id="password" placeholder="пароль" name="password" oninput="checkPasswords()">
+            <label for="password">Пароль</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control input-footer" id="password2" placeholder="пароль" name="password2" oninput="checkPasswords()">
+            <label for="password2">Пароль</label>
+        </div>
+
+        <div class="checkbox mb-3">
+            <label>
+                <a th:href="@{/login}"> авторизация существующего пользователя </a>
+            </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary btn-disable" type="submit" id="submit">Регистрация нового пользователя</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2023 by Nike Z</p>
+        <script>
+            checkPasswords();
+        </script>
+    </form>
+</main>
+<script src="https://getbootstrap.com/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+</body>
+</html>

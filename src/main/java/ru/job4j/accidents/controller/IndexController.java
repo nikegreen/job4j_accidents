@@ -23,6 +23,11 @@ public class IndexController {
     private final AccidentCrudService accidentService;
     private final TypeCrudService typeService;
 
+    /**
+     * <p>Главная страница сервиса -  index.</p>
+     * всегда вернёт
+     * @return типа {@link java.lang.String}  = "redirect:/index".
+     */
     @GetMapping("/")
     public String index() {
         return "redirect:/index";

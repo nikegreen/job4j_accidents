@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 /**
+ * @author nikez
+ * @version $Id: $Id
  * модель данных описывющая тип происшествия (нарушения правил).
  * Категории по количеству участников и их типу (водитель, пешеход и т.д.).
  */

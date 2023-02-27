@@ -8,6 +8,11 @@ import ru.job4j.accidents.model.AccidentType;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * репозиторий для типов происшествий (Hibernate).
+ */
 @Repository
 @AllArgsConstructor
 public class TypeHibernate implements TypeRepository {

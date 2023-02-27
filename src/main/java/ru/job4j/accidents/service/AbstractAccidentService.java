@@ -4,6 +4,11 @@ import ru.job4j.accidents.model.Accident;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Интерфейс сервис для происшествий (Accident)
+ */
 public interface AbstractAccidentService {
     /**
      * Функция добавляет в хранилище новое происшествие. Затирает id новым значением.

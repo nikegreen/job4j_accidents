@@ -4,6 +4,12 @@ import ru.job4j.accidents.model.AccidentType;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * интерфейс сервиса для типов происшествий по количеству и участникам происшествия (AccidentType)
+ * Сервис типов происшествий
+ */
 public interface AbstractTypeService {
     /**
      * Возращает список типов происшествий.

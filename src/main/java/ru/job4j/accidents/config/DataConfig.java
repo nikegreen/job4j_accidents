@@ -12,11 +12,20 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Конфигурация БД Spring JPA Hibernate
+ */
 @Configuration
 @EnableJpaRepositories("ru.job4j.accidents.repository")
 @EnableTransactionManagement
 public class DataConfig {
-
+    /**
+     * Бин фабрики менеджера контейнера сущностей
+     * @param ds источник данных {@link javax.sql.DataSource}
+     * @return тип {@link org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean}
+     */
     @Primary
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
@@ -30,6 +39,13 @@ public class DataConfig {
         return factory;
     }
 
+    /**
+     * Бин для получения менеджера транзакций
+     * @param entityManagerFactory фабрика сессий БД
+     *                             тип {@link javax.persistence.EntityManagerFactory}
+     * @return менеджера транзакций
+     * тип {@link org.springframework.transaction.PlatformTransactionManager}
+     */
     @Bean
     public PlatformTransactionManager transactionManager(
             EntityManagerFactory entityManagerFactory) {

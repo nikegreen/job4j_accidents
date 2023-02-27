@@ -10,6 +10,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Rule;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Класс хранилище в БД JDBC для происшествий (Accident)
+ */
 @Repository
 @AllArgsConstructor
 public class AccidentJdbcTemplate implements AccidentRepository {

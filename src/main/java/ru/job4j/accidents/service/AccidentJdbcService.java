@@ -10,6 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Класс сервис для происшествий (Accident)
+ * в БД JDBC
+ */
 @Service
 @RequiredArgsConstructor
 public class AccidentJdbcService implements AbstractAccidentService {

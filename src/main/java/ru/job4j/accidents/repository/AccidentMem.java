@@ -8,6 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * @author nikez
+ * @version $Id: $Id
  * Класс хранилище в оперативной памяти для происшествий (Accident)
  */
 @Repository

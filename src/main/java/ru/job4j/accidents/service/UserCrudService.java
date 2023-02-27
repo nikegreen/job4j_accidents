@@ -9,6 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
+/**
+ * Сервис пользователей
+ */
 @Service
 @RequiredArgsConstructor
 public class UserCrudService {
@@ -16,13 +19,20 @@ public class UserCrudService {
     private final UserRepository users;
     private final AuthorityRepository authorities;
 
+    /**
+     * Регистрация пользователя
+     * @param user тип {@link ru.job4j.accidents.model.User} новый пользователь
+     * @return тип {@link java.util.Optional<ru.job4j.accidents.model.User>}
+     */
     public Optional<User> registration(User user) {
-        if (users.findByUsername(user.getUsername()).isPresent()) {
-            return Optional.empty();
-        }
         user.setEnabled(true);
         user.setPassword(encoder.encode(user.getPassword()));
         user.setAuthority(authorities.findByAuthority("ROLE_USER"));
-        return Optional.ofNullable(users.save(user));
+        try {
+            user = users.save(user);
+        } catch (Exception e) {
+            user = null;
+        }
+        return Optional.ofNullable(user);
     }
 }

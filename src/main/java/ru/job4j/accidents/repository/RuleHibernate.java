@@ -11,6 +11,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * репозиторий для пунктов правил дорожного движения (Hibernate).
+ */
 @Repository
 @AllArgsConstructor
 public class RuleHibernate implements RuleRepository {

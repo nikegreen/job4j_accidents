@@ -9,6 +9,11 @@ import ru.job4j.accidents.model.AccidentRule;
 import ru.job4j.accidents.model.Rule;
 import java.util.*;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Класс хранилище в БД Hibernate для происшествий (Accident)
+ */
 @Repository
 @AllArgsConstructor
 public class AccidentHibernate implements AccidentRepository {

@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * репозиторий для пунктов правил дорожного движения.
+ */
 public interface RuleRepository {
     /**
      * Возращает список пунктов правил дорожного движения.

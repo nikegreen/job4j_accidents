@@ -3,6 +3,11 @@ package ru.job4j.accidents.model;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Сущность пользователь
+ */
 @Entity
 @Table(name = "users")
 public class User {

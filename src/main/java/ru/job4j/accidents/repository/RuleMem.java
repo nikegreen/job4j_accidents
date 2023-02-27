@@ -8,6 +8,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * репозиторий для пунктов правил дорожного движения в ОЗУ.
+ */
 @Repository
 public class RuleMem implements RuleRepository {
     private  final List<Rule> rules = List.of(

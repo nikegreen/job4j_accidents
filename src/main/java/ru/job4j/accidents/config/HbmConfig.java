@@ -12,11 +12,23 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Конфигурация БД Hibernate
+ */
 @Configuration
 @PropertySource("classpath:db.properties")
 @EnableTransactionManagement
 public class HbmConfig {
 
+    /**
+     * Сканирование исходников программы, поиск загружаемых компонентов
+     * их конструкторов и бинов
+     * @param dialect тип строка содержит тип SQL запросов
+     * @param ds тип {@link } источник БД
+     * @return фабрику сессий БД тип {@link org.hibernate.SessionFactory}
+     */
     @Bean
     public LocalSessionFactoryBean sessionFactory(
             @Value("${hibernate.dialect}") String dialect,
@@ -31,6 +43,12 @@ public class HbmConfig {
         return sessionFactory;
     }
 
+    /**
+     * Бин для получения менеджера транзакций
+     * @param sf фабрика сессий БД тип {@link org.hibernate.SessionFactory}
+     * @return менеджера транзакций
+     * тип {@link org.springframework.transaction.PlatformTransactionManager}
+     */
     @Bean
     public PlatformTransactionManager htx(SessionFactory sf) {
         HibernateTransactionManager tx = new HibernateTransactionManager();

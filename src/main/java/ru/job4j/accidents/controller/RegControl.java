@@ -10,11 +10,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.service.UserCrudService;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Контроллер страницы регистрации нового пользователя
+ */
 @Controller
 @RequiredArgsConstructor
 public class RegControl {
     private final UserCrudService users;
 
+    /**
+     * Ответ страницы регистрации нового пользователя POST /reg
+     * @param user тип {@link ru.job4j.accidents.model.User} новый пользователь
+     * @return тип {@link java.lang.String} строка
+     * "redirect:/login" - ОК
+     * "redirect:/reg?error=true" - ошибка.
+     */
     @PostMapping("/reg")
     public String regSave(@ModelAttribute User user) {
         if (users.registration(user).isEmpty()) {
@@ -23,6 +35,13 @@ public class RegControl {
         return "redirect:/login";
     }
 
+    /**
+     * Запрос страницы регистрации нового пользователя GET /reg
+     * @param error - статус ошибки предыдущей регистрации (если была),
+     *              передаём в {@param model} атрибутом "errorMessage".
+     * @param model тип {@link org.springframework.ui.Model}
+     * @return тип {@link java.lang.String} строка "reg";
+     */
     @GetMapping("/reg")
     public String regPage(@RequestParam(value = "error", required = false) String error,
                           Model model) {

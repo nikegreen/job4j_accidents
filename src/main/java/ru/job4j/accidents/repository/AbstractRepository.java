@@ -6,6 +6,11 @@ import org.springframework.data.util.Streamable;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Класс шаблон комманд для CRUD хранилище в БД
+ */
 public class AbstractRepository<T> {
     @Getter
     private final CrudRepository<T, Integer> repository;

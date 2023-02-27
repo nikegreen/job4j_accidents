@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * @author nikez
+ * @version $Id: $Id
  * интерфейс хранилища для происшествий (Accident)
  */
 public interface AccidentRepository {

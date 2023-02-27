@@ -7,6 +7,12 @@ import ru.job4j.accidents.repository.TypeMem;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Класс сервис для типов происшествий по количеству и участникам происшествия (AccidentType)
+ * Сервис типов происшествий в ОЗУ
+ */
 @Service
 @RequiredArgsConstructor
 public class TypeMemService implements AbstractTypeService {

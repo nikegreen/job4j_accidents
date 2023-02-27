@@ -3,6 +3,11 @@ package ru.job4j.accidents.model;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Сущность роль пользователя
+ */
 @Entity
 @Table(name = "authorities")
 public class Authority {

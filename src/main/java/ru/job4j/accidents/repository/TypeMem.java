@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * репозиторий для типов происшествий в ОЗУ.
+ */
 @Repository
 @AllArgsConstructor
 public class TypeMem implements TypeRepository {

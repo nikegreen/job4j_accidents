@@ -8,6 +8,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Класс сервис для  пунктов правил дорожного движения (Rule)
+ * в БД JDBC
+ */
 @Service
 @RequiredArgsConstructor
 public class RuleJdbcService implements AbstractRuleService {

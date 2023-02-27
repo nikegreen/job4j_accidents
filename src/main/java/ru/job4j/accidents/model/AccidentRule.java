@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Сущность связь многие-к-многим таблиц инциденты и пункты правил
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

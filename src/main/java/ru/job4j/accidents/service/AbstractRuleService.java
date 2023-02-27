@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * @author nikez
+ * @version $Id: $Id
+ * Интерфейс сервиса для пунктов правил дорожного движения (Rule)
+ */
 public interface AbstractRuleService {
     /**
      * Найти пункт правил дорожного движения по id. Если нет, то пустой.

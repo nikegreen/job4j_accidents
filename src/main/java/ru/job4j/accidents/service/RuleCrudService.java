@@ -13,8 +13,10 @@ import java.util.Set;
 /**
  * @author nikez
  * @version $Id: $Id
- * Класс сервис для пункта правил (Rule)
+ * Класс сервис для  пунктов правил дорожного движения (Rule)
+ * в БД JPA
  */
+
 @Service
 public class RuleCrudService implements AbstractRuleService {
     private final AbstractRepository<Rule> rules;

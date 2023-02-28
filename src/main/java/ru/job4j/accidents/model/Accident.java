@@ -36,8 +36,7 @@ public class Accident {
     @ManyToOne
     @JoinColumn (name = "type_id")
     private AccidentType type;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "accident_rule",
             joinColumns = { @JoinColumn(name = "accident_id") },

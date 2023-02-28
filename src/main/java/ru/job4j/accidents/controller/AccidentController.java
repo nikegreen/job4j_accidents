@@ -26,7 +26,7 @@ import java.util.*;
  */
 @Controller
 @AllArgsConstructor
-public class AccidentControl {
+public class AccidentController {
     private final AccidentCrudService accidents;
     private final TypeCrudService types;
     private final RuleCrudService rules;

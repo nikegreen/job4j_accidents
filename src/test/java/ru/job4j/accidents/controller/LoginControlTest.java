@@ -32,7 +32,7 @@ class LoginControlTest {
      *              передаём в {@param model} атрибутом "errorMessage"
      *              строку "You have been successfully logged out !!".
      * param model тип {@link org.springframework.ui.Model}
-     * return тип {@link java.lang.String} строка "login";
+     * return тип {@link String} строка "login";
      * --
      *     GetMapping("/login")
      *     public String loginPage(RequestParam(value = "error", required = false) String error,
@@ -53,7 +53,7 @@ class LoginControlTest {
      * Тест обработка де-авторизации пользователя GET /logout
      * param request тип {@link javax.servlet.http.HttpServletRequest}
      * param response тип {@link javax.servlet.http.HttpServletResponse}
-     * return тип {@link java.lang.String} строка "redirect:/login?logout=true";
+     * return тип {@link String} строка "redirect:/login?logout=true";
      * --
      *    RequestMapping(value = "/logout", method = RequestMethod.GET)
      *    public String logoutPage(HttpServletRequest request, HttpServletResponse response)

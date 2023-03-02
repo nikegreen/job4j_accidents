@@ -40,7 +40,7 @@ class IndexControllerTest {
     /**
      * <p>тест Главная страница сервиса - GET /</p>
      * всегда вернёт
-     * return типа {@link java.lang.String}  = "redirect:/index".
+     * return типа {@link String}  = "redirect:/index".
      */
     @Test
     @WithMockUser
@@ -55,7 +55,7 @@ class IndexControllerTest {
     /**
      * <p>Тест Главная страница сервиса - GET /index.</p>
      * всегда вернёт
-     * return типа {@link java.lang.String}  = "index".
+     * return типа {@link String}  = "index".
      */
     @Test
     @WithMockUser

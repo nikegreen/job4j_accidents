@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.job4j.accidents.Main;
-
+import ru.job4j.accidents.service.UserCrudService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * @author nikez
@@ -22,21 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = Main.class)
 @AutoConfigureMockMvc
 class RegControlTest {
+    @MockBean
+    private UserCrudService users;
     @Autowired
     private MockMvc mockMvc;
-
-    /**
-     * Ответ страницы регистрации нового пользователя POST /reg
-     * param user тип {@link ru.job4j.accidents.model.User} новый пользователь
-     * return тип {@link java.lang.String} строка
-     * "redirect:/login" - ОК
-     * "redirect:/reg?error=true" - ошибка.
-     * --
-     *     PostMapping("/reg")
-     *     public String regSave(@ModelAttribute User user)
-     */
-    void regSave() {
-    }
 
     /**
      * Запрос страницы регистрации нового пользователя GET /reg

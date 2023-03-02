@@ -13,8 +13,6 @@ import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.service.AccidentCrudService;
 import ru.job4j.accidents.service.RuleCrudService;
 import ru.job4j.accidents.service.TypeCrudService;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -54,7 +52,8 @@ public class AccidentController {
      * с заполненными полями типа {@link ru.job4j.accidents.model.Accident}
      * @param model тип {@link org.springframework.ui.Model}
      * @param accident тип {@link ru.job4j.accidents.model.Accident}
-     * @param req - получаем значения выбранных элементов списка статей нарушения.
+     * @param ids - получаем массив идентификаторов выбранных
+     *              элементов списка статей нарушения ПДД.
      * @return тип {@link java.lang.String} строка для перехода на другую страницу.
      * index - если без ошибок.
      * error - в если есть ошибки.
@@ -62,8 +61,7 @@ public class AccidentController {
     @PostMapping("/saveAccident")
     public String save(Model model,
                        @ModelAttribute Accident accident,
-                       HttpServletRequest req) {
-        String[] ids = req.getParameterValues("rIds");
+                       @RequestParam("rIds") String[] ids) {
         model.addAttribute(
                 "user",
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -137,17 +135,18 @@ public class AccidentController {
      * с заполненными полями типа {@link ru.job4j.accidents.model.Accident}
      * @param model тип {@link org.springframework.ui.Model}
      * @param accident тип {@link ru.job4j.accidents.model.Accident}
-     * @param req - получаем значения выбранных элементов списка статей нарушения.
+     * @param ids - получаем массив идентификаторов выбранных
+     *              элементов списка статей нарушения ПДД.
      * @return тип {@link java.lang.String} строка для перехода на другую страницу.
-     * index - если без ошибок.
-     * error - в если есть ошибки.
+     * "index" - если без ошибок.
+     * "error" - в если есть ошибки.
      */
     @PostMapping("/updateAccident")
     public String updateAccident(
             Model model,
             @ModelAttribute Accident accident,
-            HttpServletRequest req) {
-        String[] ids = req.getParameterValues("rIds");
+            @RequestParam("rIds") String[] ids
+    ) {
         model.addAttribute(
                 "user",
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal());
@@ -166,9 +165,8 @@ public class AccidentController {
             );
         }
         int i = accident.getType().getId();
-        AccidentType a = types.findById(i).orElse(null);
-        accident.setType(a);
-        //accident.setType(types.findById(accident.getType().getId()).orElse(null));
+        AccidentType accidentType = types.findById(i).orElse(null);
+        accident.setType(accidentType);
         if (!accidents.setRules(accident, ids)) {
             model.addAttribute("accident", accident);
             return goToError(

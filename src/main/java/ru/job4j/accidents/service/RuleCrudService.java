@@ -30,7 +30,7 @@ public class RuleCrudService implements AbstractRuleService {
      * @param id - пункт правил дорожного движения, тип int.
      * @return тип происшесвия {@link java.util.Optional<ru.job4j.accidents.model.Rule>}
      */
-
+    @Override
     public Optional<Rule> findById(int id) {
         return rules.findById(id);
     }
@@ -39,6 +39,7 @@ public class RuleCrudService implements AbstractRuleService {
      * Возращает список пунктов правил дорожного движения.
      * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
      */
+    @Override
     public List<Rule> findAll() {
         return rules.findAll();
     }
@@ -51,6 +52,7 @@ public class RuleCrudService implements AbstractRuleService {
      *            пунктов правил дорожного движения.
      * @return список {@link java.util.List<ru.job4j.accidents.model.Rule>}
      */
+    @Override
     public Set<Rule> findRulesByIds(int[] ids) {
         return  Streamable.of(
                 rules.getRepository().findAllById(Arrays.stream(ids).boxed().toList())

@@ -1,12 +1,9 @@
 package ru.job4j.accidents.service;
 
-import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AbstractRepository;
 import ru.job4j.accidents.repository.AccidentCrudRepository;
-import ru.job4j.accidents.repository.RuleCrudRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -19,12 +16,12 @@ import java.util.Optional;
 @Service
 public class AccidentCrudService implements AbstractAccidentService {
     private final AbstractRepository<Accident> accidents;
-    private final AbstractRepository<Rule> rules;
+    private final RuleCrudService rules;
 
     public AccidentCrudService(AccidentCrudRepository accidentRepository,
-                               RuleCrudRepository ruleRepository) {
+                               RuleCrudService ruleService) {
         this.accidents = new AbstractRepository<>(accidentRepository);
-        this.rules = new AbstractRepository<>(ruleRepository);
+        this.rules = ruleService;
     }
 
     /**
@@ -93,13 +90,11 @@ public class AccidentCrudService implements AbstractAccidentService {
         boolean result;
         try {
             accident.setRules(
-                    Streamable.of(
-                            rules.getRepository().findAllById(
-                                    Arrays.stream(ids)
+                    rules.findRulesByIds(
+                            Arrays.stream(ids)
                                     .mapToInt(Integer::valueOf)
-                                    .boxed()
-                                    .toList()
-                    )).toSet()
+                                    .toArray()
+                    )
             );
             result = true;
         } catch (Exception e) {

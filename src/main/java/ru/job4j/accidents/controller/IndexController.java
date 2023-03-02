@@ -6,8 +6,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.service.AccidentCrudService;
 import ru.job4j.accidents.service.TypeCrudService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>IndexController class. Spring boot index controller</p>
@@ -43,7 +47,20 @@ public class IndexController {
         model.addAttribute(
                 "user",
                 SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-        model.addAttribute("accidents", accidentService.findAll());
+        List<Accident> accidents = new ArrayList<>();
+        accidentService.findAll().forEach(
+                accident -> accidents.add(new Accident(
+                        accident.getId(),
+                        accident.getName(),
+                        accident.getText(),
+                        accident.getAddress(),
+                        accident.getType(),
+                        null,
+                        accident.getStatus()
+                        )
+                )
+        );
+        model.addAttribute("accidents", accidents);
         model.addAttribute("types", typeService.findAll());
         return "index";
     }
